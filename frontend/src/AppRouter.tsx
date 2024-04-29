@@ -1,24 +1,24 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import RootLayouts from "./layouts/RootLayouts";
 import HomePage from "./pages/HomePage";
+import Auth0CallbackPage from "./pages/Auth0CallbackPage";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <RootLayouts>
-        <HomePage />
-      </RootLayouts>
-    ),
-  },
-  {
-    path: "/user-profile",
-    element: <div>USER PROFILE PAGE</div>,
-  },
-  {
-    path: "*",
-    element: <Navigate to="/" replace />,
-  },
-]);
+const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <RootLayouts>
+            <HomePage />
+          </RootLayouts>
+        }
+      />
+      <Route path="/auth-callback" element={<Auth0CallbackPage />} />
+      <Route path="/user-profile" element={<h1>About</h1>} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+};
 
-export default router;
+export default AppRoutes;
