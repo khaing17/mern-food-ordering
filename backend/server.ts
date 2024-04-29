@@ -1,34 +1,24 @@
-// import mongoose from "mongoose";
-// import dotenv from "dotenv";
+import mongoose from "mongoose";
+import app from "./src/app";
+import dotenv from "dotenv";
 
-// dotenv.config({ path: "./config.env" });
+dotenv.config({ path: "./.env" });
 
-// process.on("uncaughtException", (err) => {
-//   console.log(err.name, err.message);
-//   console.log("UNHANDLED EXCEPTION! Shutting down...");
-//   process.exit(1);
-// });
+const DB = process.env.DB as string;
 
-// import app from "./src/app";
+const port = process.env.PORT || 8000;
 
-// const DB = process.env.DB;
+mongoose
+  .connect(DB)
+  .then((con) => {
+    console.log(con.connection.host);
+    console.log("Database connection established!");
+  })
+  .catch((error) => {
+    console.log("Database connection failed!");
+    console.error(error.message);
+  });
 
-// console.log(DB);
-
-// mongoose.connect(DB).then((con) => {
-//   console.log(con.connection.host);
-//   console.log("Database connection established!");
-// });
-
-// const port = process.env.PORT || 8000;
-// const server = app.listen(port, () => {
-//   console.log(`App listening on ${port}`);
-// });
-
-// process.on("unhandledRejection", (err) => {
-//   console.log(err.name, err.message);
-//   console.log("UNHANDLED REJECTION! Shutting down...");
-//   server.close(() => {
-//     process.exit(1);
-//   });
-// });
+const server = app.listen(port, () => {
+  console.log(`Server listening on port: ${port}`);
+});

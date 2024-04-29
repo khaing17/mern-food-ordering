@@ -1,8 +1,12 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import "dotenv/config";
-
+import routes from "./routes/v1";
 const app = express();
+
+interface CustomRequest extends Request {
+  requestTime: string;
+}
 
 /**
  * Here's all the middleware lied
@@ -12,14 +16,11 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/test", async (req: Request, res: Response) => {
-  res.json({
-    message: "Hello from server!",
-  });
-});
+/**
+ * Register all routes
+ */
 
-app.listen(7000, () => {
-  console.log("server listen of port 7000");
-});
+//API version 1
+app.use("/api/v1", routes);
 
 export default app;
