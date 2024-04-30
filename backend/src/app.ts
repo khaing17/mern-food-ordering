@@ -1,12 +1,8 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import "dotenv/config";
 import routes from "./routes/v1";
 const app = express();
-
-interface CustomRequest extends Request {
-  requestTime: string;
-}
 
 /**
  * Here's all the middleware lied
@@ -15,6 +11,12 @@ interface CustomRequest extends Request {
 // Body parser, reading data from body into req.body
 app.use(express.json());
 app.use(cors());
+
+//Test middleware
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log(new Date().toISOString());
+  next();
+});
 
 /**
  * Register all routes
